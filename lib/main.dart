@@ -63,7 +63,17 @@ class _HomePageState extends State<HomePage> {
   final _euroController = TextEditingController();
   final _bitcoinController = TextEditingController();
 
+  void clearAll() {
+    _realController.text = "";
+    _dolarController.text = "";
+    _euroController.text = "";
+    _bitcoinController.text = "";
+  }
+
   void realChange(String text) {
+    if (text.isEmpty) {
+      clearAll();
+    }
     double real = double.parse(text);
     double dolarConverted = double.parse(_dolar!);
     double euroConverted = double.parse(_euro!);
@@ -75,6 +85,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void dolarChange(String text) {
+    if (text.isEmpty) {
+      clearAll();
+    }
     double dolar = double.parse(text);
     double dolarConverted = double.parse(_dolar!);
     double euroConverted = double.parse(_euro!);
@@ -88,6 +101,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void euroChange(String text) {
+    if (text.isEmpty) {
+      clearAll();
+    }
     double euro = double.parse(text);
 
     double dolar = double.parse(text);
@@ -103,6 +119,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void bitcoinChange(String text) {
+    if (text.isEmpty) {
+      clearAll();
+    }
     double bitcoin = double.parse(text);
 
     double dolar = double.parse(text);
