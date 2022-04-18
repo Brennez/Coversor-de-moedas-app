@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:covert_app/widgets/input_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -20,6 +22,25 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        hintColor: Colors.amber,
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: Colors.amber,
+            ),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.amber,
+          ),
+        ),
+      ),
       home: HomePage(),
     );
   }
@@ -34,7 +55,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? dolar;
-  double? euro;
+  String? euro;
+  String? bitcoin;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,10 +108,33 @@ class _HomePageState extends State<HomePage> {
                 );
               } else {
                 dolar = snapshot.data?['USDBRL']['bid'];
-                return Center(
-                  child: Text(
-                    "$dolar",
-                    style: TextStyle(color: Colors.green),
+                euro = snapshot.data?['EURBRL']['bid'];
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: const [
+                      Icon(
+                        Icons.monetization_on_outlined,
+                        size: 150,
+                        color: Colors.amber,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InputMoney(
+                        money: "Real",
+                        iconMoney: FontAwesomeIcons.brazilianRealSign,
+                      ),
+                      InputMoney(
+                        money: "Euro",
+                        iconMoney: FontAwesomeIcons.euroSign,
+                      ),
+                      InputMoney(
+                        money: "Bitcoin",
+                        iconMoney: FontAwesomeIcons.bitcoinSign,
+                      ),
+                    ],
                   ),
                 );
               }
