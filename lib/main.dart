@@ -54,14 +54,69 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? dolar;
-  String? euro;
-  String? bitcoin;
+  String? _dolar;
+  String? _euro;
+  String? _bitcoin;
 
   final _realController = TextEditingController();
   final _dolarController = TextEditingController();
   final _euroController = TextEditingController();
   final _bitcoinController = TextEditingController();
+
+  void realChange(String text) {
+    double real = double.parse(text);
+    double dolarConverted = double.parse(_dolar!);
+    double euroConverted = double.parse(_euro!);
+    double bitcoinConverted = double.parse(_bitcoin!);
+
+    _dolarController.text = (real / dolarConverted).toStringAsFixed(2);
+    _euroController.text = (real / euroConverted).toStringAsFixed(2);
+    _bitcoinController.text = (real / bitcoinConverted).toStringAsFixed(3);
+  }
+
+  void dolarChange(String text) {
+    double dolar = double.parse(text);
+    double dolarConverted = double.parse(_dolar!);
+    double euroConverted = double.parse(_euro!);
+    double bitcoinConverted = double.parse(_bitcoin!);
+
+    _realController.text = (dolar * dolarConverted).toStringAsFixed(2);
+    _euroController.text =
+        (dolar / dolarConverted / euroConverted).toStringAsFixed(2);
+    _bitcoinController.text =
+        (dolar * dolarConverted / bitcoinConverted).toStringAsFixed(3);
+  }
+
+  void euroChange(String text) {
+    double euro = double.parse(text);
+
+    double dolar = double.parse(text);
+    double dolarConverted = double.parse(_dolar!);
+    double euroConverted = double.parse(_euro!);
+    double bitcoinConverted = double.parse(_bitcoin!);
+
+    _realController.text = (euro * euroConverted).toStringAsFixed(2);
+    _dolarController.text =
+        (euro * euroConverted / dolarConverted).toStringAsFixed(2);
+    _bitcoinController.text =
+        (euro * euroConverted / bitcoinConverted).toStringAsFixed(3);
+  }
+
+  void bitcoinChange(String text) {
+    double bitcoin = double.parse(text);
+
+    double dolar = double.parse(text);
+    double dolarConverted = double.parse(_dolar!);
+    double euroConverted = double.parse(_euro!);
+    double bitcoinConverted = double.parse(_bitcoin!);
+
+    _realController.text = (bitcoin * bitcoinConverted).toStringAsFixed(2);
+    _dolarController.text =
+        (bitcoinConverted * bitcoinConverted / dolarConverted)
+            .toStringAsFixed(2);
+    _euroController.text =
+        (bitcoin * bitcoinConverted / euroConverted).toStringAsFixed(3);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +168,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-                dolar = snapshot.data?['USDBRL']['bid'];
-                euro = snapshot.data?['EURBRL']['bid'];
+                // response from api
+                _dolar = snapshot.data?['USDBRL']['bid'];
+                _euro = snapshot.data?['EURBRL']['bid'];
+                _bitcoin = snapshot.data?['BTCBRL']['bid'];
+
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -132,25 +190,25 @@ class _HomePageState extends State<HomePage> {
                         money: "Real",
                         iconMoney: FontAwesomeIcons.brazilianRealSign,
                         controller: _realController,
-                        function: onChange,
+                        function: realChange,
                       ),
                       InputMoney(
                         money: "Dólar",
                         iconMoney: FontAwesomeIcons.dollarSign,
                         controller: _dolarController,
-                        function: onChange,
+                        function: dolarChange,
                       ),
                       InputMoney(
                         money: "Euro",
                         iconMoney: FontAwesomeIcons.euroSign,
                         controller: _euroController,
-                        function: onChange,
+                        function: euroChange,
                       ),
                       InputMoney(
                         money: "Bitcoin",
                         iconMoney: FontAwesomeIcons.bitcoinSign,
                         controller: _bitcoinController,
-                        function: onChange,
+                        function: bitcoinChange,
                       ),
                     ],
                   ),
@@ -161,10 +219,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-void onChange(String text) {
-  print(text);
 }
 
 Future<Map> getData() async {

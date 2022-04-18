@@ -23,11 +23,12 @@ class InputMoney extends StatelessWidget {
         onChanged: function,
         textAlign: TextAlign.center,
         cursorColor: Colors.amber,
+        keyboardType: TextInputType.number,
         style: const TextStyle(
           color: Colors.white70,
         ),
         decoration: InputDecoration(
-          labelText: "$money",
+          labelText: money,
           labelStyle: const TextStyle(
             color: Colors.amber,
             fontSize: 20,
