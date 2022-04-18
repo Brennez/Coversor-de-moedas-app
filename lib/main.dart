@@ -57,6 +57,12 @@ class _HomePageState extends State<HomePage> {
   String? dolar;
   String? euro;
   String? bitcoin;
+
+  final _realController = TextEditingController();
+  final _dolarController = TextEditingController();
+  final _euroController = TextEditingController();
+  final _bitcoinController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,26 +119,38 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
-                      Icon(
+                    children: [
+                      const Icon(
                         Icons.monetization_on_outlined,
                         size: 150,
                         color: Colors.amber,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       InputMoney(
                         money: "Real",
                         iconMoney: FontAwesomeIcons.brazilianRealSign,
+                        controller: _realController,
+                        function: onChange,
+                      ),
+                      InputMoney(
+                        money: "Dólar",
+                        iconMoney: FontAwesomeIcons.dollarSign,
+                        controller: _dolarController,
+                        function: onChange,
                       ),
                       InputMoney(
                         money: "Euro",
                         iconMoney: FontAwesomeIcons.euroSign,
+                        controller: _euroController,
+                        function: onChange,
                       ),
                       InputMoney(
                         money: "Bitcoin",
                         iconMoney: FontAwesomeIcons.bitcoinSign,
+                        controller: _bitcoinController,
+                        function: onChange,
                       ),
                     ],
                   ),
@@ -143,6 +161,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+void onChange(String text) {
+  print(text);
 }
 
 Future<Map> getData() async {

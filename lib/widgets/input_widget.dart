@@ -5,16 +5,22 @@ class InputMoney extends StatelessWidget {
     Key? key,
     required this.money,
     required this.iconMoney,
+    required this.controller,
+    required this.function,
   }) : super(key: key);
 
   final String money;
   final IconData iconMoney;
+  final TextEditingController controller;
+  final Function(String) function;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: TextField(
+        controller: controller,
+        onChanged: function,
         textAlign: TextAlign.center,
         cursorColor: Colors.amber,
         style: const TextStyle(
